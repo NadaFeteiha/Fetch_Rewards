@@ -2,22 +2,17 @@
 agp = "8.10.0-alpha07"
 kotlin = "2.1.0"
 coreKtx = "1.15.0"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2025.02.00"
 
 kotlinxSerializationJson = "1.8.0"
-navigationCompose = "2.8.8"
+navigationCompose = "2.8.0-rc01"
 koin = "4.0.1"
 retrofit = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -38,7 +33,6 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
