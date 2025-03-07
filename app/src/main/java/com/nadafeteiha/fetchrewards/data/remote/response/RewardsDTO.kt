@@ -22,6 +22,3 @@ fun RewardsDTO.toRewardEntity(): Reward {
         name = name ?: ""
     )
 }
-
-
-fun List<RewardsDTO>.toRewardSEntity() = map { it.toRewardEntity() }
