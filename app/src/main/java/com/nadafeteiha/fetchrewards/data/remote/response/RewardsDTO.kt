@@ -4,7 +4,6 @@ import com.nadafeteiha.fetchrewards.data.entity.Reward
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class RewardsDTO(
     @SerialName("id")

@@ -38,7 +38,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(onNavigateForward: () -> Unit, viewModel: HomeViewModel = koinViewModel()) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
     val expandedGroups = remember { mutableStateMapOf<Int, Boolean>() }
     val listener = viewModel
 
@@ -49,33 +49,37 @@ fun HomeScreen(onNavigateForward: () -> Unit, viewModel: HomeViewModel = koinVie
     ) {
         AppBar(onSortClick = { listener.onSortClick() })
 
-        if (state.isError) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                ErrorView(onClickRetry = { listener.getData() })
-            }
-        }
-        if (state.isLoading) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Loading()
-            }
-        } else {
-            if (state.rewardGroup.isNotEmpty()) {
-                LazyColumn(
-                    modifier = Modifier.background(RewardTheme.colors.background),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+        when (state) {
+            is HomeUiState.Error -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    items(state.rewardGroups) {
-                        RewardComponent(
-                            groupName = it.toString(),
-                            isExpanded = expandedGroups[it] == true,
-                            onClick = { expandedGroups[it] = expandedGroups[it] != true },
-                            rewards = if (expandedGroups[it] == true) state.rewardGroup[it]
-                                ?: emptyList() else emptyList()
-                        )
+                    ErrorView(onClickRetry = { listener.fetchRewards() })
+                }
+            }
+            is HomeUiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Loading()
+                }
+            }
+            is HomeUiState.Success -> {
+                val successState = state as HomeUiState.Success
+                if (successState.rewardGroup.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier.background(RewardTheme.colors.background),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        items(successState.rewardGroups) {
+                            RewardComponent(
+                                groupName = it.toString(),
+                                isExpanded = expandedGroups[it] == true,
+                                onClick = { expandedGroups[it] = expandedGroups[it] != true },
+                                rewards = if (expandedGroups[it] == true) successState.rewardGroup[it]
+                                    ?: emptyList() else emptyList()
+                            )
+                        }
                     }
                 }
             }

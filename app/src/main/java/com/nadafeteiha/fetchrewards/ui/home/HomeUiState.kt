@@ -2,16 +2,11 @@ package com.nadafeteiha.fetchrewards.ui.home
 
 import com.nadafeteiha.fetchrewards.data.entity.Reward
 
-
-data class HomeUiState(
-    val rewardGroup: Map<Int, List<RewardUiState>> = emptyMap(),
-    val rewardGroups: List<Int> = emptyList(),
-    val isSortAccessing: Boolean = true,
-
-    val isLoading: Boolean = false,
-    val isError: Boolean = false,
-    val message: String = ""
-)
+sealed class HomeUiState {
+    object Loading : HomeUiState()
+    data class Success(val rewardGroup: Map<Int, List<RewardUiState>>, val rewardGroups: List<Int>) : HomeUiState()
+    data class Error(val message: String) : HomeUiState()
+}
 
 data class RewardUiState(
     val id: Int = 0,
